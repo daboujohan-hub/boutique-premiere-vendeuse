@@ -1,0 +1,11 @@
+cle-firebase.json
+cle-firebase.json
+boutique.db
+uploads/
+backups/
+*.bak*
+__pycache__/
+server_sqlite_ancien.py
+patch_*.py
+reset_boutique.py
+backup.py

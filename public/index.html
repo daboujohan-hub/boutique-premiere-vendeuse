@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boutique</title>
+<meta name="theme-color" content="#14532d">
+<link rel="stylesheet" href="shop.css">
+</head>
+<body class="wait">
+<header class="hero"><div class="wrap top">
+  <div><h1 id="logo">&nbsp;</h1><div class="zones" id="zones"></div></div>
+  <button class="cartico" id="cartIco" aria-label="Mon panier">🛒<span id="cartN" class="hide">0</span></button>
+</div></header>
+<div class="wrap">
+  <div class="tools">
+    <input id="search" type="search" placeholder="🔍 Chercher…">
+    <select id="sort">
+      <option value="new">Nouveautés</option>
+      <option value="pop">Plus demandés</option>
+      <option value="low">Prix : moins cher</option>
+      <option value="high">Prix : plus cher</option>
+    </select>
+  </div>
+  <div class="cats" id="cats"></div>
+  <main class="grid" id="grid"></main>
+  <footer class="foot" id="foot"></footer>
+</div>
+<button class="cartbar hide" id="cartBar"></button>
+<div class="sheet" id="sheet"><div class="box" id="box"></div></div>
+<div class="toast" id="toast"></div>
+<script src="shop.js"></script>
+</body>
+</html>

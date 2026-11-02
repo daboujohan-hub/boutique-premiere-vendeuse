@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Espace vendeuse</title>
+<link rel="manifest" href="/admin.webmanifest">
+<meta name="theme-color" content="#14532d">
+<link rel="icon" href="/icon-192.png">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="login hide" id="login">
+  <div class="box">
+    <h1>🔐 Espace vendeuse</h1>
+    <p class="sub">Entre ton mot de passe pour gérer ta boutique.</p>
+    <input id="pw" type="password" placeholder="Mot de passe" autocomplete="current-password">
+    <div class="hint bad" id="loginMsg"></div>
+    <button class="btn g" id="loginBtn" style="margin-top:10px">Entrer</button>
+  </div>
+</div>
+
+<div id="app" class="hide">
+  <header class="top">
+    <div><small>Espace vendeuse</small><b id="shopName">Ma boutique</b></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a class="ghost" href="/" target="_blank">Ma boutique ↗</a>
+      <button class="ghost" id="logout" style="border:0">Quitter</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="v-home"></section>
+
+    <section id="v-prod" class="hide">
+      <h2>Mes produits</h2>
+      <button class="btn" id="addBtn" style="margin-bottom:14px">＋ Ajouter un produit</button>
+      <div class="card" id="plist"></div>
+    </section>
+
+    <section id="v-cmd" class="hide">
+      <h2>Commandes</h2>
+      <div class="filters" id="fcmd"></div>
+      <div id="clist"></div>
+    </section>
+
+    <section id="v-cfg" class="hide">
+      <h2>Réglages</h2>
+      <div class="card">
+        <label style="margin-top:0">Nom de ta boutique</label>
+        <input id="cNom" maxlength="60">
+        <div class="hint" id="hNom"></div>
+
+        <label>Ton numéro WhatsApp (celui qui reçoit les commandes)</label>
+        <input id="cWa" type="tel" inputmode="tel" placeholder="0707070707">
+        <div class="hint" id="hWa"></div>
+        <a class="sm lt" id="testWa" target="_blank" style="margin-top:6px">💬 Tester mon numéro</a>
+
+        <label>Couleur de ta boutique</label>
+        <input type="hidden" id="cCol" value="vert">
+        <div class="chips" id="colBox">
+          <button type="button" class="sw" data-col="vert" style="background:#14532d"></button>
+          <button type="button" class="sw" data-col="orange" style="background:#c2410c"></button>
+          <button type="button" class="sw" data-col="rose" style="background:#be185d"></button>
+          <button type="button" class="sw" data-col="bleu" style="background:#1d4ed8"></button>
+          <button type="button" class="sw" data-col="violet" style="background:#6d28d9"></button>
+          <button type="button" class="sw" data-col="noir" style="background:#18181b"></button>
+        </div>
+        <style>.sw{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #eadfcd}.sw.on{box-shadow:0 0 0 3px #f77f00}</style>
+
+        <label>Message sous le bouton « Commander » (ex : dépôt, paiement)</label>
+        <input id="cMsg" maxlength="200" placeholder="Dépôt de 1 000 F, le reste à la livraison">
+
+        <label>Garder un produit réservé pendant (heures, 0 = pour toujours)</label>
+        <input id="cDelai" type="number" inputmode="decimal" min="0" max="72">
+
+        <label>Adresse de ta boutique (quand elle est en ligne)</label>
+        <input id="cUrl" placeholder="https://maboutique.ci">
+
+        <label>Villes et quartiers de livraison (une ville par ligne)</label>
+        <textarea id="cVilles" rows="5" placeholder="San Pedro: Bardot, Cité, Séwéké&#10;Abidjan: Cocody, Yopougon"></textarea>
+
+        <button class="btn g" id="saveC" style="margin-top:16px">Enregistrer</button>
+      </div>
+      <div class="card help">
+        <h3>Besoin d'aide ?</h3>
+        <p class="sub" style="margin-top:0">Un problème, une question, une idée ? Écris directement au développeur.</p>
+        <a class="btn" data-act="aide" href="#">💬 Contacter le développeur</a>
+      </div>
+    </section>
+
+    <section id="v-aide" class="hide">
+      <h2>Aide : comment tout marche</h2>
+      <p class="sub">Touche un titre pour voir ce que fait chaque bouton.</p>
+
+      <details class="card" open><summary>🏠 Accueil</summary>
+        <p><b>À vérifier</b> : la liste des choses à corriger (prix bizarre, numéro faux, produit sans photo, produit épuisé, commandes en attente). <b>Corriger</b> t'amène directement à l'écran concerné.</p>
+        <p><b>Visiteurs</b> : combien de personnes différentes ont ouvert ta boutique aujourd'hui, cette semaine, ce mois.</p>
+        <p><b>Temps passé</b> : la durée moyenne d'une visite. <b>Sont restés 30 s+</b> : la part des visiteurs qui ont regardé plus de 30 secondes.</p>
+        <p><b>Commandes et ventes (30 j)</b> : sans les commandes annulées ou expirées.</p>
+        <p><b>Produits les plus regardés</b> : les 5 produits les plus ouverts, avec leurs ajouts au panier. <b>D'où viennent tes visiteurs</b> : TikTok, WhatsApp, lien direct…</p>
+        <p><b>Contacter le développeur</b> : ouvre WhatsApp avec un message déjà écrit.</p>
+      </details>
+
+      <details class="card"><summary>🧴 Produits</summary>
+        <p><b>＋ Ajouter un produit</b> : ouvre le formulaire. <b>Modifier</b> : le même formulaire pour un produit existant.</p>
+        <p><b>Photos</b> : <b>Ajouter des photos</b> en choisit jusqu'à 5 d'un coup. La première est la photo principale (celle de la boutique). <b>◀</b> la fait avancer d'une place, <b>✕</b> la retire.</p>
+        <p><b>Prix</b> : un message te dit tout de suite si le prix semble faux. Si tu écris 11 au lieu de 11 000, la boutique te demande de confirmer avant d'enregistrer.</p>
+        <p><b>Stock</b> : à chaque commande il baisse tout seul. À 0, la boutique affiche « Épuisé ».</p>
+        <p><b>✨ Écrire la description pour moi</b> : écrit une description courte avec le nom du produit. Tu peux la changer ensuite.</p>
+        <p><b>Tailles et couleurs</b> : touche les boutons pour choisir. <b>Ajouter</b> sert à écrire une taille ou une couleur qui n'est pas dans la liste. Facultatif : si tu ne choisis rien, la cliente n'a rien à choisir.</p>
+        <p><b>Visible dans la boutique</b> : décoche pour cacher le produit sans le supprimer.</p>
+        <p><b>Enregistrer</b> : sauvegarde. <b>Supprimer ce produit</b> : l'efface pour toujours.</p>
+      </details>
+
+      <details class="card"><summary>📦 Commandes</summary>
+        <p>Une commande arrive ici dès que la cliente appuie sur « Commander sur WhatsApp », même si elle n'envoie pas le message. Le badge orange compte celles qui attendent.</p>
+        <p><b>En attente</b> : le produit est mis de côté pour la cliente. Si tu ne confirmes pas dans le temps réglé (Réglages), la commande expire et le stock revient.</p>
+        <p><b>💬 WhatsApp</b> : ouvre la discussion avec la cliente. <b>Confirmer</b> : tu acceptes la commande. <b>Livrée</b> : la commande est terminée.</p>
+        <p><b>Annuler</b> : le stock revient dans la boutique. Une commande annulée ne peut pas être remise en attente : la cliente doit recommander.</p>
+        <p>Les <b>filtres</b> en haut montrent seulement un état à la fois.</p>
+        <p><b>🗑 Effacer</b> : efface pour toujours une commande livrée, annulée ou expirée, avec le nom et le numéro de la cliente. À utiliser si une cliente demande l'effacement de ses informations. Une commande en attente ou confirmée doit d'abord être annulée.</p>
+      </details>
+
+      <details class="card"><summary>⚙️ Réglages</summary>
+        <p><b>Nom de ta boutique</b> : affiché en haut de la boutique. Un message te prévient s'il semble mal écrit.</p>
+        <p><b>Numéro WhatsApp</b> : celui qui reçoit les commandes. 10 chiffres qui commencent par 01, 05 ou 07. <b>Tester mon numéro</b> ouvre WhatsApp pour vérifier qu'il est bon.</p>
+        <p><b>Message sous le bouton « Commander »</b> : par exemple le dépôt demandé. Il est affiché dans le panier.</p>
+        <p><b>Garder un produit réservé pendant</b> : le nombre d'heures avant qu'une commande non confirmée expire. 0 = jamais.</p>
+        <p><b>Adresse de ta boutique</b> : le lien de ta boutique quand elle sera en ligne (il sert dans les messages WhatsApp).</p>
+        <p><b>Villes et quartiers</b> : une ville par ligne, puis deux-points et les quartiers séparés par des virgules. La cliente les choisit dans une liste.</p>
+        <p><b>Couleur</b> : change la couleur de la boutique pour les prochaines visites.</p>
+        <p><b>Ma boutique ↗</b> en haut ouvre ta boutique comme la voit une cliente. <b>Quitter</b> te déconnecte.</p>
+      </details>
+
+      <details class="card"><summary>🔐 Sécurité et confidentialité</summary>
+        <p><b>Ton mot de passe</b> : ne le donne à personne. Après 5 erreurs, l'accès est bloqué 10 minutes. Tu es déconnectée automatiquement après 12 heures.</p>
+        <p><b>Téléphone partagé</b> : appuie sur <b>Quitter</b> quand tu as fini.</p>
+        <p><b>Les prix</b> : calculés par la boutique, pas par le téléphone de la cliente. Elle ne peut pas les changer.</p>
+        <p><b>Les commandes</b> : une même personne ne peut pas en envoyer plus de 5 par heure.</p>
+        <p><b>Données des clientes</b> : nom, numéro, ville, quartier. Tu les vois uniquement ici. Elles servent à livrer et à te contacter.</p>
+        <p><b>Les visites</b> : comptées avec un identifiant au hasard, sans nom ni numéro. Tes propres visites ne sont pas comptées.</p>
+        <p><b>Ton rôle</b> : les informations de tes clientes te sont confiées. Ne les partage pas et ne les utilise que pour leur commande. Si une cliente demande l'effacement de ses données, écris au développeur avec le bouton d'aide.</p>
+        <p><b>L'argent</b> ne passe jamais par la boutique : le paiement se fait entre toi et la cliente.</p>
+      </details>
+
+      <div class="card help"><h3>Une question ?</h3><a class="btn" data-act="aide" href="#">💬 Contacter le développeur</a></div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button data-v="home" class="on"><span class="ic">🏠</span>Accueil</button>
+    <button data-v="prod"><span class="ic">🧴</span>Produits</button>
+    <button data-v="cmd"><span class="ic">📦</span>Commandes<span class="bdg hide" id="bCmd">0</span></button>
+    <button data-v="cfg"><span class="ic">⚙️</span>Réglages</button>
+    <button data-v="aide"><span class="ic">❓</span>Aide</button>
+  </nav>
+</div>
+
+<div class="sheet" id="sheet"><div class="sheet-box" id="sheetBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="admin.js"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/admin-sw.js",{scope:"/admin"}).catch(function(){});}</script>
+</body>
+</html>
