@@ -17,6 +17,7 @@ PRODUITS, COMMANDES, SESSIONS, EVENTS, AVIS, META = "produits", "commandes", "se
 DEFAUTS = {"nom_boutique": "Ma Boutique", "whatsapp": "", "villes": [], "message_paiement": "",
            "site_url": "", "delai_reservation": "3", "couleur": "vert"}
 FINI = ("annulée", "expirée")
+IMAGES = "images"  # IMAGES_V1
 
 
 class Refus(Exception):
@@ -288,6 +289,20 @@ class Store:
             d = s.to_dict()
             if d.get("date", "") < limite:
                 self.changer_statut(d["id"], "expirée", seulement_attente=True)
+
+    # ---------- photos (dans Firestore : elles ne disparaissent plus) ----------
+    def image_enregistrer(self, nom, mime, data):
+        self.db.collection(IMAGES).document(nom).set({"mime": mime, "data": data, "ts": maintenant()})
+
+    def image_lire(self, nom):
+        s = self.db.collection(IMAGES).document(nom).get()
+        if not s.exists:
+            return None
+        d = s.to_dict()
+        return d.get("mime", "image/jpeg"), bytes(d["data"])
+
+    def image_supprimer(self, nom):
+        self.db.collection(IMAGES).document(nom).delete()
 
     # ---------- statistiques anonymes ----------
     def session_debut(self, sid, vid, src):

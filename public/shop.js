@@ -8,6 +8,7 @@ try { panier = JSON.parse(localStorage.getItem('panier2') || '[]'); } catch (e) 
 const save = () => { try { localStorage.setItem('panier2', JSON.stringify(panier)); } catch (e) {} };
 const imgs = p => (p.images && p.images.length ? p.images : (p.image ? [p.image] : []));
 
+/* AUTOFILL_V1 */
 function toast(t) { const e = $('#toast'); e.textContent = t; e.className = 'toast on'; clearTimeout(toast.t); toast.t = setTimeout(() => e.className = 'toast', 2600); }
 function openSheet(h) { $('#box').innerHTML = '<button class="x" data-close>×</button>' + h; $('#sheet').classList.add('on'); $('#box').scrollTop = 0; }
 function closeSheet() { $('#sheet').classList.remove('on'); cur = null; }
@@ -151,14 +152,14 @@ function addToCart() {
 function quartiers(ville) {
   const v = cfg.villes.find(x => x.ville === ville);
   return v && v.quartiers && v.quartiers.length ? '<select id="fQuartier"><option value="">Quartier</option>' + v.quartiers.map(q => '<option>' + esc(q) + '</option>').join('') + '</select>'
-    : '<input id="fQuartier" placeholder="Ton quartier">';
+    : '<input id="fQuartier" name="quartier" type="text" autocomplete="address-level3" placeholder="Ton quartier">';
 }
 function openCart() {
   if (!panier.length) return openSheet('<div class="pad" style="text-align:center"><h2>Ton panier est vide 🛒</h2><p class="meta" style="margin:8px 0 14px">Choisis un produit, puis appuie sur « Ajouter au panier ».</p><button class="go" data-close>Voir les produits</button></div>');
   const t = panier.reduce((a, i) => a + i.quantite * i.prix, 0);
   const lieu = cfg.villes.length
     ? '<select id="fVille"><option value="">Ville</option>' + cfg.villes.map(v => '<option>' + esc(v.ville) + '</option>').join('') + '</select><div id="qBox" style="margin-top:8px">' + quartiers('') + '</div>'
-    : '<input id="fVille" placeholder="Ta ville"><div id="qBox" style="margin-top:8px"><input id="fQuartier" placeholder="Ton quartier"></div>';
+    : '<input id="fVille" name="ville" type="text" autocomplete="address-level2" placeholder="Ta ville"><div id="qBox" style="margin-top:8px"><input id="fQuartier" name="quartier" type="text" autocomplete="address-level3" placeholder="Ton quartier"></div>';
   openSheet('<div class="pad"><h2>Mon panier</h2>' + panier.map((i, k) =>
     '<div class="line"><div class="th">' + (i.image ? '<img src="' + esc(i.image) + '">' : '🛍️') + '</div><div class="d"><b>' + esc(i.nom) + '</b><small>' +
     [i.taille, i.couleur].filter(Boolean).join(' / ') + ' × ' + i.quantite + '</small><b>' + F(i.prix * i.quantite) + ' F</b></div>' +

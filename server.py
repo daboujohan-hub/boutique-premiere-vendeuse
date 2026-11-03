@@ -16,6 +16,7 @@ os.makedirs(PUBLIC, exist_ok=True)
 mimetypes.add_type("application/manifest+json", ".webmanifest")
 
 from store import Store, Refus, il_y_a
+IMG_CACHE = {}  # IMAGES_V1
 
 
 def split(s):
@@ -28,11 +29,10 @@ def save_image(data_url):
         raise ValueError("image invalide")
     ext = {"jpeg": ".jpg", "png": ".png", "webp": ".webp"}[m.group(1)]
     raw = base64.b64decode(m.group(2))
-    if len(raw) > 4_000_000:
+    if len(raw) > 900_000:
         raise ValueError("image trop lourde")
     name = secrets.token_hex(8) + ext
-    with open(os.path.join(UPLOADS, name), "wb") as f:
-        f.write(raw)
+    STORE.image_enregistrer(name, {"jpeg": "image/jpeg", "png": "image/png", "webp": "image/webp"}[m.group(1)], raw)
     return "/uploads/" + name
 
 
@@ -49,6 +49,11 @@ def nettoyer_images(urls):
         m = re.match(r"^/uploads/([0-9a-f]{16}\.(?:jpg|png|webp))$", str(u))
         if not m or u in utilisees:
             continue
+        IMG_CACHE.pop(m.group(1), None)
+        try:
+            STORE.image_supprimer(m.group(1))
+        except Exception:
+            pass
         try:
             os.remove(os.path.join(UPLOADS, m.group(1)))
         except Exception:
@@ -269,7 +274,30 @@ class H(BaseHTTPRequestHandler):
                 if not self.is_admin():
                     return self.send_json({"erreur": "non autorisé"}, 401)
                 return self.send_json(STORE.commandes_liste(200))
+        if p.startswith("/uploads/"):
+            return self.image(p)
         return self.static(p)
+
+    def image(self, p):
+        m = re.match(r"^/uploads/([0-9a-f]{16}\.(?:jpg|png|webp))$", p)
+        if not m:
+            return self.static(p)
+        nom = m.group(1)
+        hit = IMG_CACHE.get(nom)
+        if hit is None:
+            hit = STORE.image_lire(nom)
+            if hit is None:
+                return self.static(p)
+            if len(IMG_CACHE) >= 60:
+                IMG_CACHE.pop(next(iter(IMG_CACHE)))
+            IMG_CACHE[nom] = hit
+        mime, data = hit
+        self.send_response(200)
+        self.send_header("Content-Type", mime)
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "public, max-age=31536000, immutable")
+        self.end_headers()
+        self.wfile.write(data)
 
     def static(self, p):
         if p in ("/", ""):
