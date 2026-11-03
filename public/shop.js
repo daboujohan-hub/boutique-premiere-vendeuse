@@ -96,6 +96,7 @@ function renderGrid() {
   if (s === 'low') l.sort((a, b) => a.prix - b.prix);
   else if (s === 'high') l.sort((a, b) => b.prix - a.prix);
   else if (s === 'pop') l.sort((a, b) => (b.demandes || 0) - (a.demandes || 0));
+  l.sort((x, y) => (x.stock <= 0) - (y.stock <= 0)); /* ORDRE_V1 */
   $('#grid').innerHTML = l.length ? l.map(p => {
     const im = imgs(p)[0];
     return '<div class="card" data-open="' + p.id + '"><div class="pic">' + (im ? '<img loading="lazy" src="' + esc(im) + '" alt="">' : '🛍️') +

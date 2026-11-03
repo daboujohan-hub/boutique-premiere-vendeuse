@@ -121,3 +121,7 @@ button{touch-action:manipulation}
 .guide a{color:var(--main);font-weight:800}
 .avis{margin-top:16px;padding:12px;border-radius:14px;background:color-mix(in srgb,var(--main) 8%,#fff);text-align:center}
 .avisbtn{display:flex;gap:10px;justify-content:center;margin-top:8px}
+
+/* IMAGES_ENTIERES_V1 */
+.gal img{object-fit:contain!important;object-position:center!important;background:#111}
+.pic img{object-position:top center!important}
