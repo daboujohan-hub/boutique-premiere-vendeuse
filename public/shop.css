@@ -125,3 +125,8 @@ button{touch-action:manipulation}
 /* IMAGES_ENTIERES_V1 */
 .gal img{object-fit:contain!important;object-position:center!important;background:#111}
 .pic img{object-position:top center!important}
+
+/* PIED_V1 */
+#foot{display:flex;flex-direction:column;align-items:center;gap:10px;padding:24px 16px 110px;text-align:center}
+#foot br{display:none}
+#foot .guidebtn{width:100%;max-width:340px;margin:0;padding:13px 16px;box-sizing:border-box;text-align:center}
