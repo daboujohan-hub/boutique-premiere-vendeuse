@@ -71,11 +71,12 @@ def _prod(d):
 
 def make_client():
     cle = os.environ.get("FIREBASE_KEY", "").strip()
+    base = os.environ.get("FIREBASE_DB", "").strip() or "(default)"
     fichier = os.environ.get("FIREBASE_KEY_FILE", "").strip()
     if cle:
-        return firestore.Client.from_service_account_info(json.loads(cle))
+        return firestore.Client.from_service_account_info(json.loads(cle), database=base)
     if fichier:
-        return firestore.Client.from_service_account_json(fichier)
+        return firestore.Client.from_service_account_json(fichier, database=base)
     raise SystemExit("Clé Firebase manquante. Définis FIREBASE_KEY_FILE=chemin/du/fichier.json "
                      "(ou FIREBASE_KEY avec le contenu du fichier).")
 
