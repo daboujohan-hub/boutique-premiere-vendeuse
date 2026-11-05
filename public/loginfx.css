@@ -1,0 +1,28 @@
+/* LOGINFX_V1 */
+.login .box{background:transparent!important;color:#fff;position:relative;max-width:360px;text-align:center;padding:10px 6px!important;box-shadow:none!important}
+.lfx-logo{width:84px;height:84px;margin:0 auto 12px;border-radius:24px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;color:#fff}
+.lfx-name{font-size:1.1rem;font-weight:600;opacity:.92;margin-bottom:26px;min-height:1.3em}
+.login h1{color:#fff!important;font-size:1.5rem;margin-bottom:6px}
+.login .sub{color:rgba(255,255,255,.8)!important;margin:0 0 18px!important;font-size:.9rem}
+.lfx-pw{position:relative}
+.login #pw{width:100%;height:56px;font-size:1.05rem;border-radius:16px;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.96);color:#111;padding:0 78px 0 16px;box-sizing:border-box;outline:none}
+.login #pw:focus{border-color:#fff}
+.lfx-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--g,#14532d);font-weight:700;padding:12px 10px;font-size:.85rem;cursor:pointer}
+.login .hint.bad{color:#ffd9d9!important;min-height:1.4em;margin:8px 0 0}
+.login #loginBtn{width:100%;height:54px;border-radius:16px;background:#fff!important;color:var(--g,#14532d)!important;font-size:1.05rem;font-weight:700;border:0;box-shadow:none}
+.lfx-forgot{display:block;margin-top:20px;color:rgba(255,255,255,.85);font-size:.82rem;text-decoration:underline}
+.lfx-shake{animation:lfx-shake .5s}
+@keyframes lfx-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.lfx-done>*:not(.lfx-ok){opacity:0;transition:opacity .25s;pointer-events:none}
+.lfx-ok{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.lfx-dots{display:flex;gap:8px;position:absolute;left:50%;top:55%;transform:translateX(-50%)}
+.lfx-dots span{width:12px;height:12px;border-radius:50%;background:#fff;animation:lfx-up .8s ease-in both}
+@keyframes lfx-up{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-170px);opacity:0}}
+.lfx-badge{width:96px;height:96px;opacity:0;animation:lfx-pop .5s .55s ease-out forwards}
+.lfx-badge circle{fill:none;stroke:#fff;stroke-width:4;stroke-dasharray:170;stroke-dashoffset:170;animation:lfx-draw .55s .6s ease-out forwards}
+.lfx-badge path{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:50;stroke-dashoffset:50;animation:lfx-draw .35s 1s ease-out forwards}
+.lfx-txt{font-size:1.15rem;font-weight:700;opacity:0;animation:lfx-fade .4s 1.1s ease-out forwards}
+@keyframes lfx-pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes lfx-draw{to{stroke-dashoffset:0}}
+@keyframes lfx-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.lfx-dots span{animation-duration:.01s}.lfx-badge,.lfx-badge circle,.lfx-badge path,.lfx-txt{animation-duration:.01s;animation-delay:0s}}
