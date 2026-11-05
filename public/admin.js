@@ -66,7 +66,7 @@ function renderHome() {
   const jn = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
   const pct = s.sessions ? Math.round(100 * s.restes / s.sessions) : 0;
   $('#v-home').innerHTML =
-    '<h2>Bonjour 👋</h2><p class="sub">Voici ce qui se passe sur ta boutique.</p>' +
+    '' + /* ACCUEIL_V1 */
     '<div class="card"><h3>À vérifier</h3>' + s.alertes.map(a =>
       '<div class="al ' + a.niveau + '"><p>' + esc(a.texte) + '</p>' +
       (a.va ? '<button data-go="' + a.va + '">Corriger</button>' : '') + '</div>').join('') + '</div>' +
